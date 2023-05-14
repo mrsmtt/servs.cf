@@ -1,0 +1,40 @@
+﻿<HTML>
+<HEAD>
+<TITLE>Удаление папки</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+// Удаление папки. Возвращает 0, если папка удалена 
+// или не существует, и -1 - в противном случае.
+function deleteFolder(folderpath) 
+{
+  var fso = new ActiveXObject("Scripting.FileSystemObject");
+  // Если папка не существует, то выход
+  if (!fso.FolderExists(folderpath)) return 0;
+  // Имя (буква) диска
+  var disk = fso.GetDriveName(folderpath);
+  // Если не подходит тип диска, то выход
+  if (fso.GetDrive(disk).DriveType == 0 || 
+    fso.GetDrive(disk).DriveType == 4) return -1;
+  // Удаляем папку.
+  fso.DeleteFolder(folderpath);
+  // Возвращаем результат проверки существования папки.
+  return fso.FolderExists(folderpath);
+}
+
+function f1(x)
+{
+  if (deleteFolder(x)== -1)
+      alert ("Папки с таким именем не существует");
+  else alert ("Папка удалена");
+}
+//-->
+</SCRIPT>
+</HEAD>
+<BODY>
+<H2>Удаление папки</H2>
+<FORM NAME="frm1">
+<INPUT TYPE="TEXT" SIZE="30" VALUE="C:\\Мои документы\\Test" NAME="pole"><BR>
+<INPUT TYPE="BUTTON" ONCLICK="f1(frm1.pole.value)" VALUE="Удалить папку">
+</FORM>
+</BODY>
+</HTML>
